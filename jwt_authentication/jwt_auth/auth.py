@@ -35,7 +35,7 @@ class UserSignIn(generics.CreateAPIView):
             "user_id": self.user_id.id,
             "first_name": self.user_id.first_name,
             "token": token,
-            "role": self.user_id.userpermissions.role_id.role_name
+            "role": self.user_id.userpermissions.role.role_name
         }
         return user_details
 
@@ -50,7 +50,7 @@ class UserSignIn(generics.CreateAPIView):
             if self.user_id:
                 login(request, self.user_id)
                 result = {
-                    'user_details': self.get_jwt_token()
+                    'user_details': self.get_user_details()
                 }
                 response = {
                     'status_code': status.HTTP_200_OK,

@@ -24,8 +24,8 @@ class UserSignUp(generics.CreateAPIView):
     def if_user_exists(self):
         try:
             auth.UserInfo.objects.get(
-                db_models.Q(user_id__username=self.request.data.get('mobile'))
-                | db_models.Q(user_id__email=self.request.data.get('email')))
+                db_models.Q(user__username=self.request.data.get('mobile'))
+                | db_models.Q(user__email=self.request.data.get('email')))
             is_exists = True
         except auth.UserInfo.DoesNotExist:
             is_exists = False
@@ -41,7 +41,7 @@ class UserSignUp(generics.CreateAPIView):
             )
             get_or_create_auth_user.set_password(request_data.get('password'))
             get_or_create_auth_user.save()
-            request_data['user_id'] = get_or_create_auth_user.id
+            request_data['user'] = get_or_create_auth_user.id
             serializer = self.get_serializer(data=request_data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)

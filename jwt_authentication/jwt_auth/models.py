@@ -19,8 +19,8 @@ class Role(models.Model):
 
 
 class UserPermissions(models.Model):
-    role = models.ForeignKey(Role, related_name='role_id', on_delete=models.CASCADE, null=False)
-    user = models.ForeignKey(User, related_name='user_id', on_delete=models.CASCADE, null=False)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False)
 
     class Meta:
         managed = True
